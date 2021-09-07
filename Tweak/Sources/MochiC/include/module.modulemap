@@ -1,0 +1,4 @@
+module MochiC {
+    umbrella "."
+    export *
+}

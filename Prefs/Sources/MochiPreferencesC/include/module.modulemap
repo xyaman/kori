@@ -1,0 +1,4 @@
+module MochiPreferencesC {
+    umbrella "."
+    export *
+}

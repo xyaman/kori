@@ -1,0 +1,9 @@
+Package: com.xyaman.mochi
+Name: Mochi
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome Orion tweak!
+Maintainer: Xyaman
+Author: Xyaman
+Section: Tweaks
+Depends: ${ORION}, firmware (>= 12.2)
