@@ -65,23 +65,41 @@ let swiftFlags: [String] = libFlags + [
 ]
 
 let package = Package(
-    name: "MochiPreferences",
-    platforms: [.iOS("12.2")],
+    name: "Mochi",
+    platforms: [.iOS(deploymentTarget)],
     products: [
+        .library(
+            name: "Mochi",
+            targets: ["Mochi"]
+        ),
         .library(
             name: "MochiPreferences",
             targets: ["MochiPreferences"]
-        ),
+        )
     ],
     targets: [
         .target(
+            name: "MochiC",
+            path: "Tweak/Sources/MochiC",
+            cSettings: [.unsafeFlags(cFlags)],
+            cxxSettings: [.unsafeFlags(cxxFlags)]
+        ),
+        .target(
+            name: "Mochi",
+            dependencies: ["MochiC"],
+            path: "Tweak/Sources/Mochi",
+            swiftSettings: [.unsafeFlags(swiftFlags)]
+        ),
+        .target(
             name: "MochiPreferencesC",
+            path: "Prefs/Sources/MochiPreferencesC",
             cSettings: [.unsafeFlags(cFlags)],
             cxxSettings: [.unsafeFlags(cxxFlags)]
         ),
         .target(
             name: "MochiPreferences",
             dependencies: ["MochiPreferencesC"],
+            path: "Prefs/Sources/MochiPreferences",
             swiftSettings: [.unsafeFlags(swiftFlags)]
         ),
     ]

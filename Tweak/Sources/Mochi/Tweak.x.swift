@@ -19,8 +19,8 @@ class CSScrollViewHook : ClassHook<UIView> {
         var newFrame = frame
 
         // target.frame = CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y + 300), size: frame.size)
-        newFrame.origin.y += preferences.yOffset
-        newFrame.size.height -= preferences.yOffset
+        newFrame.origin.y += CGFloat(preferences.yOffset)
+        newFrame.size.height -= CGFloat(preferences.yOffset)
         newFrame.size.width -= 100
         orig.setFrame(newFrame)
     }
