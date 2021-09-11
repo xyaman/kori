@@ -6,4 +6,4 @@ Description: An awesome Orion tweak!
 Maintainer: Xyaman
 Author: Xyaman
 Section: Tweaks
-Depends: ${ORION}, firmware (>= 12.2)
+Depends: ${ORION}, firmware (>= 13.0), ws.hbang.common (>= 1.17)

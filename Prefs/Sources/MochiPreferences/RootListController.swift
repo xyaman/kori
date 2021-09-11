@@ -1,7 +1,7 @@
-import Preferences
 import MochiPreferencesC
+import CepheiPrefs
 
-class RootListController: PSListController {
+class RootListController: HBRootListController {
     override var specifiers: NSMutableArray? {
         get {
             if let specifiers = value(forKey: "_specifiers") as? NSMutableArray {
@@ -15,5 +15,19 @@ class RootListController: PSListController {
         set {
             super.specifiers = newValue
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Change appearance
+        let appearanceSettings = HBAppearanceSettings()
+        
+        // Change tint cplor
+        appearanceSettings.tintColor = UIColor(red:(214.0/255.0), green:(54.0/255.0), blue:(54.0/255.0), alpha: 1)
+        
+        // Hide separators
+        appearanceSettings.tableViewCellSeparatorColor = UIColor(white: 0, alpha: 0)
+        self.appearanceSettings = appearanceSettings
     }
 }
