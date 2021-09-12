@@ -8,8 +8,8 @@ var preferences = Preferences()
 // CoverSheet hook to get the instance
 class CoverSheetController : ClassHook<CSCoverSheetViewController> {
     
-    func `init`() {
-        orig.`init`()
+    func viewDidLoad() {
+        orig.viewDidLoad()
         Manager.sharedInstance.presenter = target
     }
 }
@@ -29,3 +29,16 @@ class NotificationsHook : ClassHook<CSMainPageView> {
     }
 }
 
+struct Mochi : Tweak {
+    init() {
+        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
+            nil,
+            {center, observer, name, object, userInfo in
+                Manager.sharedInstance.startEditing()
+            },
+            "com.xyaman.mochipreferences/StartEditing" as CFString,
+            nil,
+            .coalesce
+        )
+    }
+}

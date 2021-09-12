@@ -8,7 +8,29 @@
                 <key>cell</key>
                 <string>PSGroupCell</string>
                 <key>label</key>
-                <string>MochiPreferences First Page</string>
+                <string>Notifications</string>
+            </dict>
+            <dict>
+                <key>cell</key>
+                <string>PSSwitchCell</string>
+                <key>label</key>
+                <string>Start Editing</string>
+                <key>default</key>
+                <true />
+                <key>key</key>
+                <string>startEdit</string>
+                <key>defaults</key>
+                <string>com.xyaman.mochipreferences</string>
+                <key>PostNotification</key>
+                <string>com.xyaman.mochipreferences/StartEditing</string>
+            </dict>
+            
+            <!-- Notifications -->
+            <dict>
+                <key>cell</key>
+                <string>PSGroupCell</string>
+                <key>label</key>
+                <string>Notifications</string>
             </dict>
             <dict>
                 <key>cell</key>
