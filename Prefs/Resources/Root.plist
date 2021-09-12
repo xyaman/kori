@@ -12,18 +12,6 @@
             </dict>
             <dict>
                 <key>cell</key>
-                <string>PSSwitchCell</string>
-                <key>default</key>
-                <true />
-                <key>defaults</key>
-                <string>com.xyaman.mochipreferences</string>
-                <key>key</key>
-                <string>AwesomeSwitch1</string>
-                <key>label</key>
-                <string>Awesome Switch 1</string>
-            </dict>
-            <dict>
-                <key>cell</key>
                 <string>PSSliderCell</string>
                 <key>default</key>
                 <real>0</real>
@@ -34,7 +22,7 @@
                 <key>showValue</key>
                 <true />
                 <key>key</key>
-                <string>yOffset</string>
+                <string>notificationsYOffset</string>
                 <key>defaults</key>
                 <string>com.xyaman.mochipreferences</string>
                 <key>PostNotification</key>
@@ -42,6 +30,6 @@
             </dict>
         </array>
         <key>title</key>
-        <string>MochiPreferences</string>
+        <string>Mochi</string>
     </dict>
 </plist>
