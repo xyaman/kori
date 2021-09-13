@@ -21,24 +21,24 @@ class Manager {
         if(isEditing) { return }
         isEditing = true
         
-        NSLog("orion 1")
-        
         // Check if there is a presenter view
         guard let presenterView = presenter?.view else {
             isEditing = false
             return
         }
         
-        NSLog("orion 2")
-
-        
         // Add our view to the presenter
         presenterView.addSubview(editorView)
         editorView.translatesAutoresizingMaskIntoConstraints = false
+        editorView.topConstraint = editorView.topAnchor.constraint(equalTo: presenterView.topAnchor, constant: 10)
         
-        editorView.leftAnchor.constraint(equalTo: presenterView.leftAnchor).isActive = true
-        editorView.rightAnchor.constraint(equalTo: presenterView.rightAnchor).isActive = true
-        editorView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        // Activate contraints
+        NSLayoutConstraint.activate([
+            editorView.topConstraint,
+            editorView.leftAnchor.constraint(equalTo: presenterView.leftAnchor, constant: 10),
+            editorView.rightAnchor.constraint(equalTo: presenterView.rightAnchor, constant: -10),
+            editorView.heightAnchor.constraint(equalToConstant: 150)
+        ])
     }
     
     func stopEditing() {
