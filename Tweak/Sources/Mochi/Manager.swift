@@ -1,7 +1,14 @@
 import MochiC
 import Foundation
+import Cephei
 
 class Manager {
+    
+    // Preferences
+    var preferences = HBPreferences(identifier: "com.xyaman.mochipreferences")
+    var notificationsYOffset: CGFloat = 0
+    var editableKeys = ["notificationsYOffset"]
+
     
     // Tweak
     private var editorView = EditorView()
@@ -13,7 +20,12 @@ class Manager {
     
     static let sharedInstance = Manager()
     
-    init() {}
+    init() {
+//        preferences.register(float: &notificationsYOffset, default: 0, forKey: "notificationsYOffset")
+        notificationsYOffset = preferences["notificationsYOffset"] as? CGFloat ?? 0
+        
+        
+    }
     
     func startEditing() {
         

@@ -3,8 +3,6 @@ import Orion
 import UIKit
 
 
-var preferences = Preferences()
-
 // CoverSheet hook to get the instance
 class CoverSheetController : ClassHook<CSCoverSheetViewController> {
     
@@ -22,8 +20,8 @@ class NotificationsHook : ClassHook<CSMainPageView> {
         var newFrame = frame
 
         // target.frame = CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y + 300), size: frame.size)
-        newFrame.origin.y += preferences.notificationsYOffset
-        newFrame.size.height -= preferences.notificationsYOffset
+        newFrame.origin.y += Manager.sharedInstance.notificationsYOffset
+        newFrame.size.height -= Manager.sharedInstance.notificationsYOffset
         newFrame.size.width -= 100
         orig.setFrame(newFrame)
     }
