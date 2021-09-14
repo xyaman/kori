@@ -12,7 +12,7 @@ class Manager {
     
     // Tweak
     private var editorView = EditorView()
-    private var isEditing = false
+    var isEditing = false
     
     // Hook views
     var presenter: UIViewController?
@@ -21,9 +21,11 @@ class Manager {
     static let sharedInstance = Manager()
     
     init() {
-//        preferences.register(float: &notificationsYOffset, default: 0, forKey: "notificationsYOffset")
-        notificationsYOffset = preferences["notificationsYOffset"] as? CGFloat ?? 0
-        
+        preferences.register(float: &notificationsYOffset, default: 0, forKey: "notificationsYOffset")
+//        notificationsYOffset = preferences["notificationsYOffset"] as? CGFloat ?? 0
+    }
+    
+    func loadValues() {
         
     }
     

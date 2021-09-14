@@ -15,14 +15,29 @@ class CoverSheetController : ClassHook<CSCoverSheetViewController> {
 // Notifications Scroll view hook
 class NotificationsHook : ClassHook<CSMainPageView> {
 
-    func setFrame(_ frame: CGRect) {
-        // orig.setFrame(frame)
-        var newFrame = frame
+    @Property(.nonatomic) var originalFrame = CGRect()
+    
+    func didMoveToWindow() {
+        orig.didMoveToWindow()
+        
+        Manager.sharedInstance.notificationsView = target
+    }
 
-        // target.frame = CGRect(origin: CGPoint(x: frame.origin.x, y: frame.origin.y + 300), size: frame.size)
+    func setFrame(_ frame: CGRect) {
+        var newFrame = frame;
+        if(!Manager.sharedInstance.isEditing) {
+            originalFrame = frame
+            newFrame = frame
+            NSLog("orion original frame: %@", String(describing: originalFrame))
+        } else {
+            newFrame = originalFrame
+        }
+        NSLog("orion edited first: %@", String(describing: newFrame))
+
         newFrame.origin.y += Manager.sharedInstance.notificationsYOffset
-        newFrame.size.height -= Manager.sharedInstance.notificationsYOffset
-        newFrame.size.width -= 100
+//        newFrame.size.height -= Manager.sharedInstance.notificationsYOffset
+//        newFrame.size.width -= 100
+        NSLog("orion edited frame: %@", String(describing: newFrame))
         orig.setFrame(newFrame)
     }
 }

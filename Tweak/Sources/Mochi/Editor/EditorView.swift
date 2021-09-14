@@ -89,6 +89,8 @@ class EditorView : UIView {
     
     @objc func close() {
         Manager.sharedInstance.stopEditing()
+        controlsView.isHidden = true
+        collectionView.isHidden = false
     }
     
     // Basically here we move the editor
@@ -123,7 +125,10 @@ extension EditorView : UICollectionViewDataSource {
 extension EditorView: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         controlsView.isHidden = false
+        collectionView.isHidden = true
+        
         let key = Manager.sharedInstance.editableKeys[indexPath.row]
         controlsView.startEdit(key: key)
     }

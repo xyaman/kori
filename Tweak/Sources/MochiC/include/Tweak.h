@@ -4,6 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Notifications ScrollView
 @interface CSMainPageView : UIScrollView
+@property(nonatomic) CGRect originalFrame;
 @end
 
 // LS main controller
