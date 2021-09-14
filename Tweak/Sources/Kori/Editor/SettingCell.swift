@@ -13,10 +13,12 @@ class SettingCell: UICollectionViewCell {
         // Label
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 10)
+        label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 2
         
         contentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        label.heightAnchor.constraint(equalToConstant: 15).isActive = true
         label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
         label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         label.rightAnchor.constraint(equalTo: rightAnchor).isActive = true

@@ -3,7 +3,7 @@ import UIKit
 class ControlEditorView : UIView {
     
     // Data
-    var currentEditKey: String?
+    var currentEditSetting: EditableSetting?
     var currentEditValue: Float = 0
     var minValue: CGFloat = 0
     var maxValue: CGFloat = 0
@@ -12,7 +12,7 @@ class ControlEditorView : UIView {
     var valueSlider = UISlider()
     var minLabel = UILabel()
     var maxLabel = UILabel()
-    var currentLabel = UILabel()
+    var currentTextField = UITextField()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,14 +49,18 @@ class ControlEditorView : UIView {
         maxLabel.bottomAnchor.constraint(equalTo:bottomAnchor, constant: -15).isActive = true
         
         // Current label
-        currentLabel.textAlignment = .center
-        addSubview(currentLabel)
+        currentTextField.textAlignment = .center
+        currentTextField.returnKeyType = .done
+        currentTextField.keyboardType = .numberPad
+        currentTextField.addDoneButtonToKeyboard(target: self, action: #selector(textDone))
         
-        currentLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentLabel.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        currentLabel.heightAnchor.constraint(equalTo: heightAnchor, constant: -30).isActive = true
-        currentLabel.centerXAnchor.constraint(equalTo:centerXAnchor).isActive = true
-        currentLabel.bottomAnchor.constraint(equalTo:bottomAnchor).isActive = true
+        addSubview(currentTextField)
+        
+        currentTextField.translatesAutoresizingMaskIntoConstraints = false
+        currentTextField.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
+        currentTextField.topAnchor.constraint(equalTo: valueSlider.bottomAnchor, constant: 2).isActive = true
+        currentTextField.centerXAnchor.constraint(equalTo:centerXAnchor).isActive = true
+        currentTextField.bottomAnchor.constraint(equalTo:bottomAnchor).isActive = true
         
     }
     
@@ -64,28 +68,39 @@ class ControlEditorView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func startEdit(key: String) {
-        currentEditKey = key
-        currentEditValue = Manager.sharedInstance.preferences[key] as? Float ?? 0
+    func startEdit(setting: EditableSetting) {
+        currentEditSetting = setting
+        currentEditValue = Manager.sharedInstance.preferences[setting.key] as? Float ?? 0
         
-        valueSlider.minimumValue = -300
-        valueSlider.maximumValue = 300
+        valueSlider.minimumValue = Float(setting.minValue)
+        valueSlider.maximumValue = Float(setting.maxValue)
         valueSlider.setValue(currentEditValue, animated: true)
         
         minLabel.text = "-300"
         maxLabel.text = "300"
-        currentLabel.text = String(currentEditValue)
+        currentTextField.text = String(currentEditValue)
     }
     
     @objc func sliderDidChange(slider: UISlider) {
         
         currentEditValue = slider.value
-        currentLabel.text = String(currentEditValue)
+        currentTextField.text = String(currentEditValue)
         
         // Edit preferences value
-        if let key = currentEditKey {
-            Manager.sharedInstance.preferences.set(slider.value, forKey: key)
-            Manager.sharedInstance.notificationsView!.frame = CGRect()
+        if let setting = currentEditSetting {
+            Manager.sharedInstance.preferences.set(slider.value, forKey: setting.key)
+            Manager.sharedInstance.editValue(setting: setting)
         }
+    }
+    
+    @objc func textDone() {
+        if let newValue = NumberFormatter().number(from: currentTextField.text ?? "") {
+            currentEditValue = Float(truncating: newValue)
+            valueSlider.value = Float(truncating: newValue)
+            Manager.sharedInstance.preferences.set(newValue, forKey: currentEditSetting!.key)
+            Manager.sharedInstance.editValue(setting: currentEditSetting!)
+        }
+        
+        currentTextField.resignFirstResponder()
     }
 }

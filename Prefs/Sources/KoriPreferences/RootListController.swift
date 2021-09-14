@@ -1,5 +1,6 @@
-import MochiPreferencesC
+import KoriPreferencesC
 import CepheiPrefs
+import Foundation
 
 class RootListController: HBRootListController {
     override var specifiers: NSMutableArray? {
@@ -29,5 +30,10 @@ class RootListController: HBRootListController {
         // Hide separators
         appearanceSettings.tableViewCellSeparatorColor = UIColor(white: 0, alpha: 0)
         self.appearanceSettings = appearanceSettings
+    }
+    
+    @objc func startEdit(_ sender: Any?) {
+        NSLog("orion edit")
+        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFNotificationName("com.xyaman.koripreferences/StartEditing" as CFString), nil, nil, true)
     }
 }

@@ -5,17 +5,17 @@
         <key>entry</key>
         <dict>
             <key>bundle</key>
-            <string>MochiPreferences</string>
+            <string>KoriPreferences</string>
             <key>cell</key>
             <string>PSLinkCell</string>
             <key>detail</key>
-            <string>MochiPreferences.RootListController</string>
+            <string>KoriPreferences.RootListController</string>
             <!-- <key>icon</key>
 		<string>icon.png</string> -->
             <key>isController</key>
             <true />
             <key>label</key>
-            <string>Mochi</string>
+            <string>Kori</string>
         </dict>
     </dict>
 </plist>

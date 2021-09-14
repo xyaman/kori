@@ -1,4 +1,4 @@
-module MochiC {
+module KoriPreferencesC {
     umbrella "."
     export *
 }

@@ -1,57 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>items</key>
-        <array>
-            <dict>
-                <key>cell</key>
-                <string>PSGroupCell</string>
-                <key>label</key>
-                <string>Notifications</string>
-            </dict>
-            <dict>
-                <key>cell</key>
-                <string>PSSwitchCell</string>
-                <key>label</key>
-                <string>Start Editing</string>
-                <key>default</key>
-                <true />
-                <key>key</key>
-                <string>startEdit</string>
-                <key>defaults</key>
-                <string>com.xyaman.mochipreferences</string>
-                <key>PostNotification</key>
-                <string>com.xyaman.mochipreferences/StartEditing</string>
-            </dict>
-            
-            <!-- Notifications -->
-            <dict>
-                <key>cell</key>
-                <string>PSGroupCell</string>
-                <key>label</key>
-                <string>Notifications</string>
-            </dict>
-            <dict>
-                <key>cell</key>
-                <string>PSSliderCell</string>
-                <key>default</key>
-                <real>0</real>
-                <key>min</key>
-                <real>-300</real>
-                <key>max</key>
-                <real>300</real>
-                <key>showValue</key>
-                <true />
-                <key>key</key>
-                <string>notificationsYOffset</string>
-                <key>defaults</key>
-                <string>com.xyaman.mochipreferences</string>
-                <key>PostNotification</key>
-                <string>com.xyaman.mochipreferences/ReloadPrefs</string>
-            </dict>
-        </array>
-        <key>title</key>
-        <string>Mochi</string>
-    </dict>
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Notifications</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Start Editing</string>
+			<key>action</key>
+            <string>startEdit:</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Kori</string>
+</dict>
 </plist>

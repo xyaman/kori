@@ -1,5 +1,5 @@
 import UIKit
-import MochiC
+import KoriC
 
 class EditorView : UIView {
     
@@ -112,12 +112,12 @@ extension EditorView : UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Manager.sharedInstance.editableKeys.count
+        return Manager.sharedInstance.editableSettings.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SettingCell", for: indexPath) as! SettingCell
-        cell.label.text = Manager.sharedInstance.editableKeys[indexPath.row]
+        cell.label.text = Manager.sharedInstance.editableSettings[indexPath.row].title
         return cell
     }
 }
@@ -129,7 +129,7 @@ extension EditorView: UICollectionViewDelegate {
         controlsView.isHidden = false
         collectionView.isHidden = true
         
-        let key = Manager.sharedInstance.editableKeys[indexPath.row]
-        controlsView.startEdit(key: key)
+        let setting = Manager.sharedInstance.editableSettings[indexPath.row]
+        controlsView.startEdit(setting: setting)
     }
 }

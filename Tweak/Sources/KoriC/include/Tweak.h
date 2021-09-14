@@ -2,10 +2,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// Notifications ScrollView
-@interface CSMainPageView : UIScrollView
-@property(nonatomic) CGRect originalFrame;
+@interface UIView (Kori)
+- (nullable UIViewController*) _viewControllerForAncestor;
 @end
+
+// Notifications ScrollView
+@interface CSCombinedListViewController : UIViewController
+@end
+
 
 // LS main controller
 @interface CSCoverSheetViewController : UIViewController

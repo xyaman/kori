@@ -65,41 +65,41 @@ let swiftFlags: [String] = libFlags + [
 ]
 
 let package = Package(
-    name: "Mochi",
+    name: "Kori",
     platforms: [.iOS(deploymentTarget)],
     products: [
         .library(
-            name: "Mochi",
-            targets: ["Mochi"]
+            name: "Kori",
+            targets: ["Kori"]
         ),
         .library(
-            name: "MochiPreferences",
-            targets: ["MochiPreferences"]
+            name: "KoriPreferences",
+            targets: ["KoriPreferences"]
         )
     ],
     targets: [
         .target(
-            name: "MochiC",
-            path: "Tweak/Sources/MochiC",
+            name: "KoriC",
+            path: "Tweak/Sources/KoriC",
             cSettings: [.unsafeFlags(cFlags)],
             cxxSettings: [.unsafeFlags(cxxFlags)]
         ),
         .target(
-            name: "Mochi",
-            dependencies: ["MochiC"],
-            path: "Tweak/Sources/Mochi",
+            name: "Kori",
+            dependencies: ["KoriC"],
+            path: "Tweak/Sources/Kori",
             swiftSettings: [.unsafeFlags(swiftFlags)]
         ),
         .target(
-            name: "MochiPreferencesC",
-            path: "Prefs/Sources/MochiPreferencesC",
+            name: "KoriPreferencesC",
+            path: "Prefs/Sources/KoriPreferencesC",
             cSettings: [.unsafeFlags(cFlags)],
             cxxSettings: [.unsafeFlags(cxxFlags)]
         ),
         .target(
-            name: "MochiPreferences",
-            dependencies: ["MochiPreferencesC"],
-            path: "Prefs/Sources/MochiPreferences",
+            name: "KoriPreferences",
+            dependencies: ["KoriPreferencesC"],
+            path: "Prefs/Sources/KoriPreferences",
             swiftSettings: [.unsafeFlags(swiftFlags)]
         ),
     ]
