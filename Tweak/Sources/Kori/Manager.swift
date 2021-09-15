@@ -12,6 +12,9 @@ class Manager {
     var notificationsHeightOffset: CGFloat = 0
     var editableSettings: [EditableSetting] = []
 
+    // Haptic feedback
+    var selectionFeedback = UISelectionFeedbackGenerator()
+    var impactFeedback = UIImpactFeedbackGenerator()
     
     // Tweak
     private var editorView = EditorView()
@@ -74,7 +77,7 @@ class Manager {
         // Only execute this function if we are editing
         if(!isEditing) { return }
         isEditing = false
- 
+
         editorView.removeFromSuperview()
     }
     

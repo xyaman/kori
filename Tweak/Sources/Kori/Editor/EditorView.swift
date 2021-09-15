@@ -113,7 +113,7 @@ class EditorView : UIView {
     @objc func close() {
         if(controlsView.isHidden) {
             Manager.sharedInstance.stopEditing()
-        
+            Manager.sharedInstance.impactFeedback.impactOccurred()
         } else {
             prepare()
         }
@@ -156,6 +156,8 @@ extension EditorView : UICollectionViewDataSource {
 extension EditorView: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        Manager.sharedInstance.selectionFeedback.selectionChanged()
         
         controlsView.isHidden = false
         collectionView.isHidden = true

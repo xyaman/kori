@@ -20,6 +20,7 @@ class ControlEditorView : UIView {
         backgroundColor = .clear
         
         // Slider
+        valueSlider.addTarget(self, action: #selector(sliderDidBegin(slider:)), for: .touchDown)
         valueSlider.addTarget(self, action: #selector(sliderDidChange(slider:)), for: .valueChanged)
         addSubview(valueSlider)
         
@@ -31,6 +32,7 @@ class ControlEditorView : UIView {
         
         
         // Min label
+        minLabel.font = UIFont.systemFont(ofSize: 12)
         addSubview(minLabel)
         
         minLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +42,7 @@ class ControlEditorView : UIView {
         minLabel.bottomAnchor.constraint(equalTo:bottomAnchor, constant: -15).isActive = true
         
         // Max label
+        maxLabel.font = UIFont.systemFont(ofSize: 12)
         addSubview(maxLabel)
         
         maxLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -49,6 +52,7 @@ class ControlEditorView : UIView {
         maxLabel.bottomAnchor.constraint(equalTo:bottomAnchor, constant: -15).isActive = true
         
         // Current label
+        currentTextField.font = UIFont.systemFont(ofSize: 12)
         currentTextField.textAlignment = .center
         currentTextField.returnKeyType = .done
         currentTextField.keyboardType = .numberPad
@@ -79,6 +83,10 @@ class ControlEditorView : UIView {
         minLabel.text = "-300"
         maxLabel.text = "300"
         currentTextField.text = String(format: "%.2f", currentEditValue)
+    }
+    
+    @objc func sliderDidBegin(slider: UISlider) {
+        Manager.sharedInstance.impactFeedback.impactOccurred()
     }
     
     @objc func sliderDidChange(slider: UISlider) {
