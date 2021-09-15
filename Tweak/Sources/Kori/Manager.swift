@@ -78,6 +78,11 @@ class Manager {
         editorView.removeFromSuperview()
     }
     
+    func getImage(key: String) -> UIImage? {
+        let url = "/Library/PreferenceBundles/KoriPreferences.bundle/Editor/\(key).png"
+        return UIImage(contentsOfFile: url)?.withRenderingMode(.alwaysTemplate)
+    }
+    
     func editValue(setting: EditableSetting) {
         
         switch setting.type {

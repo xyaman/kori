@@ -78,13 +78,13 @@ class ControlEditorView : UIView {
         
         minLabel.text = "-300"
         maxLabel.text = "300"
-        currentTextField.text = String(currentEditValue)
+        currentTextField.text = String(format: "%.2f", currentEditValue)
     }
     
     @objc func sliderDidChange(slider: UISlider) {
         
         currentEditValue = slider.value
-        currentTextField.text = String(currentEditValue)
+        currentTextField.text = String(format: "%.2f", currentEditValue)
         
         // Edit preferences value
         if let setting = currentEditSetting {
@@ -93,6 +93,7 @@ class ControlEditorView : UIView {
         }
     }
     
+    // Used by UITextField
     @objc func textDone() {
         if let newValue = NumberFormatter().number(from: currentTextField.text ?? "") {
             currentEditValue = Float(truncating: newValue)

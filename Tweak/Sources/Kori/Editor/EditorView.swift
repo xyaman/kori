@@ -6,6 +6,7 @@ class EditorView : UIView {
     var topConstraint: NSLayoutConstraint!
     
     // Edit
+    var titleLabel = UILabel()
     var collectionView: UICollectionView!
     var collectionLayout: UICollectionViewFlowLayout!
     
@@ -49,8 +50,23 @@ class EditorView : UIView {
         closeView.heightAnchor.constraint(equalToConstant: 20).isActive = true
         closeView.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
+        // TitleLabel
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.textAlignment = .center
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.text = "Editor"
+        addSubview(titleLabel)
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -30).isActive = true
+        
         // Collection view
         collectionLayout = UICollectionViewFlowLayout()
+        collectionLayout.itemSize = CGSize(width: 70, height: 70)
+        
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionLayout)
         collectionView.register(SettingCell.self, forCellWithReuseIdentifier: "SettingCell")
         collectionView.dataSource = self
@@ -59,7 +75,7 @@ class EditorView : UIView {
         addSubview(collectionView)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo:topAnchor, constant: 40).isActive = true
+        collectionView.topAnchor.constraint(equalTo:topAnchor, constant: 45).isActive = true
         collectionView.bottomAnchor.constraint(equalTo:bottomAnchor, constant: -8).isActive = true
         collectionView.leftAnchor.constraint(equalTo:leftAnchor, constant: 10).isActive = true
         collectionView.rightAnchor.constraint(equalTo:rightAnchor, constant: -10).isActive = true
@@ -88,12 +104,19 @@ class EditorView : UIView {
     }
     
     func prepare() {
+        titleLabel.text = "Editor"
         controlsView.isHidden = true
         collectionView.isHidden = false
+        closeView.image = UIImage(systemName: "xmark")
     }
     
     @objc func close() {
-        Manager.sharedInstance.stopEditing()
+        if(controlsView.isHidden) {
+            Manager.sharedInstance.stopEditing()
+        
+        } else {
+            prepare()
+        }
     }
     
     // Basically here we move the editor
@@ -120,7 +143,12 @@ extension EditorView : UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SettingCell", for: indexPath) as! SettingCell
-        cell.label.text = Manager.sharedInstance.editableSettings[indexPath.row].title
+        let setting = Manager.sharedInstance.editableSettings[indexPath.row]
+        
+        cell.label.text = setting.title
+        cell.imageView.image = Manager.sharedInstance.getImage(key: setting.key)
+        cell.imageView.tintColor = .label
+        
         return cell
     }
 }
@@ -131,8 +159,10 @@ extension EditorView: UICollectionViewDelegate {
         
         controlsView.isHidden = false
         collectionView.isHidden = true
+        closeView.image = UIImage(systemName: "arrow.uturn.backward")
         
         let setting = Manager.sharedInstance.editableSettings[indexPath.row]
+        titleLabel.text = setting.title
         controlsView.startEdit(setting: setting)
     }
 }
