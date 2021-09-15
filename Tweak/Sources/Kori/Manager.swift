@@ -38,6 +38,8 @@ class Manager {
             EditableSetting(key: "notificationsWidthOffset", title: "Notifications Width Offset", type: .notifications, minValue: -300, maxValue: 300),
             EditableSetting(key: "notificationsHeightOffset", title: "Notifications Height Offset", type: .notifications, minValue: -300, maxValue: 300)
         ])
+        
+        // Time editable settings
     }
     
     func startEditing() {
@@ -64,6 +66,8 @@ class Manager {
             editorView.rightAnchor.constraint(equalTo: presenterView.rightAnchor, constant: -10),
             editorView.heightAnchor.constraint(equalToConstant: 150)
         ])
+        
+        editorView.prepare()
     }
     
     func stopEditing() {
@@ -78,6 +82,7 @@ class Manager {
         
         switch setting.type {
         case .notifications:
+            // Reload the notificationView frame (we hooked setFrame)
             notificationsView?.frame = CGRect()
         }
     }

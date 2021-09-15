@@ -87,10 +87,13 @@ class EditorView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func close() {
-        Manager.sharedInstance.stopEditing()
+    func prepare() {
         controlsView.isHidden = true
         collectionView.isHidden = false
+    }
+    
+    @objc func close() {
+        Manager.sharedInstance.stopEditing()
     }
     
     // Basically here we move the editor

@@ -10,6 +10,12 @@ class CoverSheetController : ClassHook<CSCoverSheetViewController> {
         orig.viewDidLoad()
         Manager.sharedInstance.presenter = target
     }
+    
+    func viewDidDisappear(_ animated: Bool) {
+        orig.viewDidDisappear(animated)
+        
+        Manager.sharedInstance.stopEditing()
+    }
 }
 
 // Notifications Scroll view hook
