@@ -6,14 +6,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable UIViewController*) _viewControllerForAncestor;
 @end
 
+// LS main controller
+@interface CSCoverSheetViewController : UIViewController
+@end
+
+@interface SBCoverSheetPresentationManager : NSObject
++(SBCoverSheetPresentationManager *) sharedInstance;
+-(void)setCoverSheetPresented:(BOOL)arg1 animated:(BOOL)arg2 withCompletion:(nullable id)arg3 ;
+@end
+
 // Notifications ScrollView
 @interface CSCombinedListViewController : UIViewController
 @end
 
 
-// LS main controller
-@interface CSCoverSheetViewController : UIViewController
-@end
 
 // Blur
 typedef NS_ENUM(NSInteger, MTMaterialRecipe) {

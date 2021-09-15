@@ -61,6 +61,8 @@ struct Kori : Tweak {
             nil,
             {center, observer, name, object, userInfo in
                 Manager.sharedInstance.startEditing()
+                let cover = objc_getClass("SBCoverSheetPresentationManager") as! SBCoverSheetPresentationManager.Type
+                cover.sharedInstance().setCoverSheetPresented(true, animated: true, withCompletion: nil)
             },
             "com.xyaman.koripreferences/StartEditing" as CFString,
             nil,
