@@ -80,26 +80,22 @@ let package = Package(
     targets: [
         .target(
             name: "KoriC",
-            path: "Tweak/Sources/KoriC",
             cSettings: [.unsafeFlags(cFlags)],
             cxxSettings: [.unsafeFlags(cxxFlags)]
         ),
         .target(
             name: "Kori",
             dependencies: ["KoriC"],
-            path: "Tweak/Sources/Kori",
             swiftSettings: [.unsafeFlags(swiftFlags)]
         ),
         .target(
             name: "KoriPreferencesC",
-            path: "Prefs/Sources/KoriPreferencesC",
             cSettings: [.unsafeFlags(cFlags)],
             cxxSettings: [.unsafeFlags(cxxFlags)]
         ),
         .target(
             name: "KoriPreferences",
             dependencies: ["KoriPreferencesC"],
-            path: "Prefs/Sources/KoriPreferences",
             swiftSettings: [.unsafeFlags(swiftFlags)]
         ),
     ]

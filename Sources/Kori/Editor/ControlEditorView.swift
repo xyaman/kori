@@ -55,7 +55,7 @@ class ControlEditorView : UIView {
         currentTextField.font = UIFont.systemFont(ofSize: 12)
         currentTextField.textAlignment = .center
         currentTextField.returnKeyType = .done
-        currentTextField.keyboardType = .numberPad
+        currentTextField.keyboardType = .decimalPad
         currentTextField.addDoneButtonToKeyboard(target: self, action: #selector(textDone))
         
         addSubview(currentTextField)
