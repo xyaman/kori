@@ -11,7 +11,7 @@
             <key>detail</key>
             <string>KoriPreferences.RootListController</string>
             <!-- <key>icon</key>
-		<string>icon.png</string> -->
+        <string>icon.png</string> -->
             <key>isController</key>
             <true />
             <key>label</key>
