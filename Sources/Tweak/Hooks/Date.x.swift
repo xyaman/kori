@@ -2,17 +2,23 @@ import TweakC
 import Orion
 
 class DateViewHook : ClassHook<SBFLockScreenDateView> {
-    
-//    static let targetName: String = "SBFLockScreenDateView"
-    
+        
     @Property(.nonatomic) var originalFrame = CGRect()
 
     func didMoveToWindow() {
         orig.didMoveToWindow()
         Manager.sharedInstance.dateView = target
+        
+        if let label = target._timeLabel() {
+            label.font = UIFont(name: label.font.fontName, size: Manager.sharedInstance.dateFontSize)
+        }
     }
+    
 
     func setFrame(_ frame: CGRect) {
+        
+//        let label = target._timeLabel()
+//        label?.font = UIFont.systemFont(ofSize: label?.font.pointSize ?? 20, weight: .bold)
         
         if(Manager.sharedInstance.useDateStaticFrame.boolValue) {
             let origin = CGPoint(x: Manager.sharedInstance.dateXStatic, y: Manager.sharedInstance.dateYStatic)
@@ -29,8 +35,7 @@ class DateViewHook : ClassHook<SBFLockScreenDateView> {
                 
         newFrame.origin.y += Manager.sharedInstance.dateYOffset
         newFrame.origin.x += Manager.sharedInstance.dateXOffset
-//        newFrame.size.width += Manager.sharedInstance.dateWidthOffset
-//        newFrame.size.height += Manager.sharedInstance.dateHeightOffset
+
         orig.setFrame(newFrame)
     }
 }

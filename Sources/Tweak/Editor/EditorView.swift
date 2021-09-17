@@ -7,6 +7,7 @@ class EditorView : UIView {
     
     // UI
     var blurView: UIView!
+    var resetView: UIView!
     var closeView: UIImageView!
     var returnView: UIImageView!
     var titleLabel: UILabel!
@@ -38,6 +39,20 @@ class EditorView : UIView {
         blurView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         
         
+        // Reset View
+        resetView = UIImageView(image: UIImage(systemName: "arrow.clockwise"))
+        resetView.isHidden = true
+        resetView.tintColor = .label
+        resetView.contentMode = .scaleAspectFit
+        resetView.isUserInteractionEnabled = true
+        addSubview(resetView)
+        
+        resetView.translatesAutoresizingMaskIntoConstraints = false
+        resetView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
+        resetView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        resetView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        resetView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        
         
         // Close View
         closeView = UIImageView(image: UIImage(systemName: "xmark"))
@@ -51,6 +66,7 @@ class EditorView : UIView {
         closeView.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
         closeView.heightAnchor.constraint(equalToConstant: 20).isActive = true
         closeView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        
         
         // Return View
         returnView = UIImageView(image: UIImage(systemName: "arrow.uturn.backward"))
@@ -109,6 +125,9 @@ class EditorView : UIView {
         controlsView.rightAnchor.constraint(equalTo:rightAnchor, constant: -10).isActive = true
         
         // Add buttons tap gestures
+        let resetTap = UITapGestureRecognizer(target: self, action: #selector(resetSetting))
+        resetView.addGestureRecognizer(resetTap)
+        
         let closeTap = UITapGestureRecognizer(target: Manager.sharedInstance, action: #selector(Manager.sharedInstance.stopEditing))
         closeView.addGestureRecognizer(closeTap)
         
@@ -124,14 +143,22 @@ class EditorView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func resetSetting() {
+        if let setting = controlsView.currentSetting {
+            Manager.sharedInstance.editSetting(setting, value: 0)
+            controlsView.startEdit(setting: setting) // Forces a reload
+        }
+    }
+    
     @objc func toggleControlsView() {
         Manager.sharedInstance.selectionFeedback?.selectionChanged()
-
+                
         self.collectionView.isHidden = !self.collectionView.isHidden
         self.controlsView.isHidden = !self.controlsView.isHidden
         
-        self.closeView.isHidden = !self.closeView.isHidden
+        self.resetView.isHidden = !self.resetView.isHidden
         self.returnView.isHidden = !self.returnView.isHidden
+        self.closeView.isHidden = !self.closeView.isHidden
         
         if(!self.collectionView.isHidden) {
             self.titleLabel.text = "Editor"

@@ -10,6 +10,7 @@ class Manager {
     var preferences = HBPreferences(identifier: "com.xyaman.koripreferences")
     var disableNotificationsHistory: ObjCBool = false
     var useDateStaticFrame: ObjCBool = false
+    var dateFontSize: CGFloat = 70
     
     // Notifications
     var notificationsXOffset: CGFloat = 0
@@ -46,6 +47,7 @@ class Manager {
         
         preferences.register(_Bool: &disableNotificationsHistory, default: false, forKey: "disableNotificationsHistory")
         preferences.register(_Bool: &useDateStaticFrame, default: false, forKey: "useDateStaticFrame")
+        preferences.register(float: &dateFontSize, default: 70, forKey: "dateFontSize")
 
         // Notifications
         preferences.register(float: &notificationsYOffset, default: 0, forKey: "notificationsYOffset")
@@ -142,7 +144,7 @@ class Manager {
             notificationsView?.frame = CGRect()
             notificationsListView?.frame = CGRect()
         case .date:
-            NSLog("orion date view")
+            // Reload the dateView frame (we hooked setFrame)
             dateView?.frame = CGRect()
         }
         isEditing = false

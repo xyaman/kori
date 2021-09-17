@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Date
 @interface SBFLockScreenDateView : UIView
+-(nullable UILabel *) _timeLabel;
 @end
 
 // Blur
