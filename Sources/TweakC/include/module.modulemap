@@ -1,4 +1,4 @@
-module KoriC {
+module TweakC {
     umbrella "."
     export *
 }

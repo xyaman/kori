@@ -1,4 +1,0 @@
-module KoriPreferencesC {
-    umbrella "."
-    export *
-}

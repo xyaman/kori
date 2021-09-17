@@ -1,5 +1,5 @@
 import UIKit
-import KoriC
+import TweakC
 
 class EditorView : UIView {
     

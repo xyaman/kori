@@ -1,4 +1,3 @@
-import KoriPreferencesC
 import CepheiPrefs
 import Foundation
 
