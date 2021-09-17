@@ -14,11 +14,17 @@ class DateViewHook : ClassHook<SBFLockScreenDateView> {
 
     func setFrame(_ frame: CGRect) {
         
-        // We only want to update one CSCoverSheetViewBase
+        if(Manager.sharedInstance.useDateStaticFrame.boolValue) {
+            let origin = CGPoint(x: Manager.sharedInstance.dateXStatic, y: Manager.sharedInstance.dateYStatic)
+            originalFrame = CGRect(origin: origin, size: frame.size)
+        }
+        
         var newFrame = originalFrame
+        
+        // We only want to update one CSCoverSheetViewBase
         if(!Manager.sharedInstance.isEditing) {
-            originalFrame = frame
-            newFrame = frame
+            originalFrame = newFrame
+            newFrame = Manager.sharedInstance.useDateStaticFrame.boolValue ? newFrame : frame
         }
                 
         newFrame.origin.y += Manager.sharedInstance.dateYOffset
@@ -33,5 +39,12 @@ class DateControllerHook : ClassHook<UIViewController> {
     
     static let targetName: String = "SBFLockScreenDateViewController"
     
-    
+    func setContentAlpha(_ arg0: CGFloat, withSubtitleVisible arg1: Bool) {
+        if(Manager.sharedInstance.useDateStaticFrame.boolValue) {
+            orig.setContentAlpha(1, withSubtitleVisible: arg1)
+        
+        } else {
+            orig.setContentAlpha(arg0, withSubtitleVisible: arg1)
+        }
+    }
 }

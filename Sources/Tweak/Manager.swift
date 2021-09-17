@@ -9,6 +9,7 @@ class Manager {
     // Preferences
     var preferences = HBPreferences(identifier: "com.xyaman.koripreferences")
     var disableNotificationsHistory: ObjCBool = false
+    var useDateStaticFrame: ObjCBool = false
     
     // Notifications
     var notificationsXOffset: CGFloat = 0
@@ -20,6 +21,9 @@ class Manager {
     var dateYOffset: CGFloat = 0
     var dateWidthOffset: CGFloat = 0
     var dateHeightOffset: CGFloat = 0
+    
+    var dateXStatic: CGFloat = 0
+    var dateYStatic: CGFloat = 0
     
     // Editable preferences (not available on tweak prefs)
     var editableSettings: [EditableSetting] = []
@@ -41,7 +45,8 @@ class Manager {
     private init() {
         
         preferences.register(_Bool: &disableNotificationsHistory, default: false, forKey: "disableNotificationsHistory")
-        
+        preferences.register(_Bool: &useDateStaticFrame, default: false, forKey: "useDateStaticFrame")
+
         // Notifications
         preferences.register(float: &notificationsYOffset, default: 0, forKey: "notificationsYOffset")
         preferences.register(float: &notificationsXOffset, default: 0, forKey: "notificationsXOffset")
@@ -52,6 +57,8 @@ class Manager {
         preferences.register(float: &dateYOffset, default: 0, forKey: "dateYOffset")
         preferences.register(float: &dateWidthOffset, default: 0, forKey: "dateWidthOffset")
         preferences.register(float: &dateHeightOffset, default: 0, forKey: "dateHeightOffset")
+        preferences.register(float: &dateXStatic, default: 0, forKey: "dateXStatic")
+        preferences.register(float: &dateYStatic, default: 0, forKey: "dateYStatic")
         
         // Notification editable settings
         editableSettings.append(contentsOf: [
@@ -63,6 +70,10 @@ class Manager {
         
         // Time editable settings
         editableSettings.append(contentsOf: [
+            .date(key: "dateXStatic", title: "Date X Static", minValue: 0, maxValue: 600),
+            .date(key: "dateYStatic", title: "Date Y Static", minValue: 0, maxValue: 1000),
+            
+            // Layout
             .date(key: "dateXOffset", title: "Date X Offset", minValue: -300, maxValue: 300),
             .date(key: "dateYOffset", title: "Date Y Offset", minValue: -100, maxValue: 500)
         ]);
