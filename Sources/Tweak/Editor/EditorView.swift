@@ -83,6 +83,7 @@ class EditorView : UIView {
         // Collection view
         collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.itemSize = CGSize(width: 70, height: 70)
+        collectionLayout.scrollDirection = .horizontal
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionLayout)
         collectionView.register(SettingCell.self, forCellWithReuseIdentifier: "SettingCell")
@@ -124,7 +125,7 @@ class EditorView : UIView {
     }
     
     @objc func toggleControlsView() {
-        Manager.sharedInstance.selectionFeedback.selectionChanged()
+        Manager.sharedInstance.selectionFeedback?.selectionChanged()
 
         self.collectionView.isHidden = !self.collectionView.isHidden
         self.controlsView.isHidden = !self.controlsView.isHidden

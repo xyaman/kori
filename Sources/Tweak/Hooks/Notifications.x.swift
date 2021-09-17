@@ -33,6 +33,50 @@ class NotificationsHook : ClassHook<UIView> {
             newFrame.origin.y += Manager.sharedInstance.notificationsYOffset
             newFrame.origin.x += Manager.sharedInstance.notificationsXOffset
             newFrame.size.width += Manager.sharedInstance.notificationsWidthOffset
+//            newFrame.size.height += Manager.sharedInstance.notificationsHeightOffset
+            orig.setFrame(newFrame)
+        
+        } else {
+            orig.setFrame(frame)
+        }
+    }
+}
+
+
+class NotificationList : ClassHook<NCNotificationListView> {
+    
+    @Property(.nonatomic) var originalFrame = CGRect()
+    @Property(.nonatomic) var isTargetView = false
+    
+    
+    func didMoveToSuperview() {
+        orig.didMoveToSuperview()
+        isTargetView = false
+        
+        let notificationListViewClass = objc_getClass("NCNotificationListView") as! NCNotificationListView.Type
+        guard let superview = target.superview else {
+            return
+        }
+        
+        if(!superview.isKind(of: notificationListViewClass.self)) {
+            NSLog("orion target")
+            isTargetView = true
+            Manager.sharedInstance.notificationsListView = target
+        }
+    }
+    
+    func setFrame(_ frame: CGRect) {
+        
+        // We only want to update one CSCoverSheetViewBase
+        if(isTargetView) {
+            var newFrame = originalFrame
+            if(!Manager.sharedInstance.isEditing) {
+                originalFrame = frame
+                newFrame = frame
+            }
+
+            // Only clips to bounds if user change height
+            target.clipsToBounds = Manager.sharedInstance.notificationsHeightOffset != 0
             newFrame.size.height += Manager.sharedInstance.notificationsHeightOffset
             orig.setFrame(newFrame)
         

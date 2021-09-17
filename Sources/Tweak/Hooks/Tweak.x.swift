@@ -3,7 +3,7 @@ import Orion
 import UIKit
 
 
-// Used on DisableNotificationsHistory.x.swift
+// Used on NotificationsHistory.x.swift
 struct DisableNotificationsHistory : HookGroup {}
 
 // CoverSheet hook to get the instance
@@ -33,6 +33,8 @@ struct Kori : Tweak {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), nil, startEditCallback, "com.xyaman.koripreferences/StartEditing" as CFString, nil, .coalesce)
     
         // Enable groups
-//        if(DisableNotificationsHistory)
+        if(Manager.sharedInstance.disableNotificationsHistory.boolValue) {
+            DisableNotificationsHistory().activate()
+        }
     }
 }

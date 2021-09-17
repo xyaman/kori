@@ -74,6 +74,8 @@ class ControlEditorView : UIView {
         currentSetting = setting
         let currentValue = Manager.sharedInstance.preferences[setting.key] as? Float ?? 0
         
+        slider.minimumValue = Float(setting.minValue)
+        slider.maximumValue = Float(setting.maxValue)
         slider.setValue(currentValue, animated: true)
         
         minLabel.text = "\(setting.minValue)"
@@ -82,7 +84,7 @@ class ControlEditorView : UIView {
     }
     
     @objc func sliderDidBegin(slider: UISlider) {
-        Manager.sharedInstance.impactFeedback.impactOccurred()
+        Manager.sharedInstance.impactFeedback?.impactOccurred()
     }
     
     @objc func sliderDidChange(slider: UISlider) {

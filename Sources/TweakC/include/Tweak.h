@@ -19,8 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CSCombinedListViewController : UIViewController
 @end
 
+@interface NCNotificationStructuredListViewController : UIViewController
+@end
+
 // Notifications History
-@interface NCNotificationListView : NSObject
+@interface NCNotificationListView : UIScrollView
 @property (nonatomic) BOOL revealed;
 @end
 
@@ -35,6 +38,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface NCNotificationListCoalescingControlsCell : UIView
+@end
+
+// Date
+@interface SBFLockScreenDateView : UIView
 @end
 
 // Blur
