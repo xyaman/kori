@@ -117,7 +117,7 @@ class NotificationList : ClassHook<NCNotificationListView> {
             target.clipsToBounds = Manager.sharedInstance.notificationsHeightOffset != 0
             newFrame.size.height += Manager.sharedInstance.notificationsHeightOffset
                         
-//            orig.setFrame(newFrame)
+            orig.setFrame(newFrame)
             gradientLayer?.frame = target.bounds
         
         } else {
