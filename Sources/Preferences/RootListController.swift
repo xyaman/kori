@@ -32,7 +32,6 @@ class RootListController: HBRootListController {
     }
     
     @objc func startEdit(_ sender: Any?) {
-        NSLog("orion edit")
         CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFNotificationName("com.xyaman.koripreferences/StartEditing" as CFString), nil, nil, true)
     }
 }

@@ -19,7 +19,23 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CSCombinedListViewController : UIViewController
 @end
 
+// Notifications History
+@interface NCNotificationListView : NSObject
+@property (nonatomic) BOOL revealed;
+@end
 
+@interface NCNotificationListSectionHeaderView : UIView
+@end
+
+// Older notifications
+@interface NCNotificationListSectionRevealHintView : UIView
+@end
+
+@interface NCNotificationListCoalescingHeaderCell : UIView
+@end
+
+@interface NCNotificationListCoalescingControlsCell : UIView
+@end
 
 // Blur
 @interface MTMaterialView : UIView

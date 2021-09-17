@@ -24,12 +24,10 @@ class NotificationsHook : ClassHook<UIView> {
 
         if(ancestor != nil && ancestor!.isKind(of: CSCombinedListViewController.self)) {
             
-            var newFrame = frame
+            var newFrame = originalFrame
             if(!Manager.sharedInstance.isEditing) {
                 originalFrame = frame
                 newFrame = frame
-            } else {
-                newFrame = originalFrame
             }
 
             newFrame.origin.y += Manager.sharedInstance.notificationsYOffset

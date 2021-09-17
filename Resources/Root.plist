@@ -1,25 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>items</key>
-	<array>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Notifications</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>label</key>
-			<string>Start Editing</string>
-			<key>action</key>
-            <string>startEdit:</string>
-		</dict>
-	</array>
-	<key>title</key>
-	<string>Kori</string>
-</dict>
+    <dict>
+        <key>items</key>
+        <array>
+            <dict>
+                <key>cell</key>
+                <string>PSGroupCell</string>
+                <key>label</key>
+                <string>General</string>
+            </dict>
+
+            <!-- Editor -->
+            <dict>
+                <key>cell</key>
+                <string>PSGroupCell</string>
+                <key>label</key>
+                <string>Editor</string>
+            </dict>
+            <dict>
+                <key>cell</key>
+                <string>PSButtonCell</string>
+                <key>label</key>
+                <string>Start Editing</string>
+                <key>action</key>
+                <string>startEdit:</string>
+            </dict>
+
+            <!-- Settings -->
+            <dict>
+                <key>cell</key>
+                <string>PSGroupCell</string>
+                <key>label</key>
+                <string>Settings</string>
+                <key>footerText</key>
+                <string>Needs respring.</string>
+            </dict>
+            <dict>
+                <key>cell</key>
+                <string>PSSwitchCell</string>
+                <key>default</key>
+                <false />
+                <key>label</key>
+                <string>Disable notifications history</string>
+                <key>key</key>
+                <string>disableNotificationsHistory</string>
+                <key>defaults</key>
+                <string>com.xyaman.koripreferences</string>
+                <key>PostNotification</key>
+                <string>com.xyaman.koripreferences/ReloadPrefs</string>
+            </dict>
+        </array>
+        <key>title</key>
+        <string>Kori</string>
+    </dict>
 </plist>

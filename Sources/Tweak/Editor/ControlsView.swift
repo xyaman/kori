@@ -3,13 +3,10 @@ import UIKit
 class ControlEditorView : UIView {
     
     // Data
-    var currentEditSetting: EditableSetting?
-    var currentEditValue: Float = 0
-    var minValue: CGFloat = 0
-    var maxValue: CGFloat = 0
+    var currentSetting: EditableSetting?
     
     // UI
-    var valueSlider = UISlider()
+    var slider = UISlider()
     var minLabel = UILabel()
     var maxLabel = UILabel()
     var currentTextField = UITextField()
@@ -20,15 +17,15 @@ class ControlEditorView : UIView {
         backgroundColor = .clear
         
         // Slider
-        valueSlider.addTarget(self, action: #selector(sliderDidBegin(slider:)), for: .touchDown)
-        valueSlider.addTarget(self, action: #selector(sliderDidChange(slider:)), for: .valueChanged)
-        addSubview(valueSlider)
+        slider.addTarget(self, action: #selector(sliderDidBegin(slider:)), for: .touchDown)
+        slider.addTarget(self, action: #selector(sliderDidChange(slider:)), for: .valueChanged)
+        addSubview(slider)
         
-        valueSlider.translatesAutoresizingMaskIntoConstraints = false
-        valueSlider.widthAnchor.constraint(equalTo: widthAnchor, constant: -140).isActive = true
-        valueSlider.heightAnchor.constraint(equalTo:heightAnchor, constant: -15).isActive = true
-        valueSlider.centerXAnchor.constraint(equalTo:centerXAnchor).isActive = true
-        valueSlider.bottomAnchor.constraint(equalTo:bottomAnchor, constant: -15).isActive = true
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.widthAnchor.constraint(equalTo: widthAnchor, constant: -140).isActive = true
+        slider.heightAnchor.constraint(equalTo:heightAnchor, constant: -15).isActive = true
+        slider.centerXAnchor.constraint(equalTo:centerXAnchor).isActive = true
+        slider.bottomAnchor.constraint(equalTo:bottomAnchor, constant: -15).isActive = true
         
         
         // Min label
@@ -41,6 +38,7 @@ class ControlEditorView : UIView {
         minLabel.leftAnchor.constraint(equalTo:leftAnchor, constant: 15).isActive = true
         minLabel.bottomAnchor.constraint(equalTo:bottomAnchor, constant: -15).isActive = true
         
+        
         // Max label
         maxLabel.font = UIFont.systemFont(ofSize: 12)
         addSubview(maxLabel)
@@ -51,18 +49,18 @@ class ControlEditorView : UIView {
         maxLabel.rightAnchor.constraint(equalTo:rightAnchor, constant: -15).isActive = true
         maxLabel.bottomAnchor.constraint(equalTo:bottomAnchor, constant: -15).isActive = true
         
+        
         // Current label
         currentTextField.font = UIFont.systemFont(ofSize: 12)
         currentTextField.textAlignment = .center
         currentTextField.returnKeyType = .done
         currentTextField.keyboardType = .decimalPad
         currentTextField.addDoneButtonToKeyboard(target: self, action: #selector(textDone))
-        
         addSubview(currentTextField)
         
         currentTextField.translatesAutoresizingMaskIntoConstraints = false
         currentTextField.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        currentTextField.topAnchor.constraint(equalTo: valueSlider.bottomAnchor, constant: 2).isActive = true
+        currentTextField.topAnchor.constraint(equalTo: slider.bottomAnchor, constant: 2).isActive = true
         currentTextField.centerXAnchor.constraint(equalTo:centerXAnchor).isActive = true
         currentTextField.bottomAnchor.constraint(equalTo:bottomAnchor).isActive = true
         
@@ -73,16 +71,14 @@ class ControlEditorView : UIView {
     }
     
     func startEdit(setting: EditableSetting) {
-        currentEditSetting = setting
-        currentEditValue = Manager.sharedInstance.preferences[setting.key] as? Float ?? 0
+        currentSetting = setting
+        let currentValue = Manager.sharedInstance.preferences[setting.key] as? Float ?? 0
         
-        valueSlider.minimumValue = Float(setting.minValue)
-        valueSlider.maximumValue = Float(setting.maxValue)
-        valueSlider.setValue(currentEditValue, animated: true)
+        slider.setValue(currentValue, animated: true)
         
-        minLabel.text = "-300"
-        maxLabel.text = "300"
-        currentTextField.text = String(format: "%.2f", currentEditValue)
+        minLabel.text = "\(setting.minValue)"
+        maxLabel.text = "\(setting.maxValue)"
+        currentTextField.text = String(format: "%.2f", currentValue)
     }
     
     @objc func sliderDidBegin(slider: UISlider) {
@@ -90,25 +86,16 @@ class ControlEditorView : UIView {
     }
     
     @objc func sliderDidChange(slider: UISlider) {
-        
-        currentEditValue = slider.value
-        currentTextField.text = String(format: "%.2f", currentEditValue)
-        
-        // Edit preferences value
-        if let setting = currentEditSetting {
-            Manager.sharedInstance.preferences.set(slider.value, forKey: setting.key)
-            Manager.sharedInstance.editValue(setting: setting)
-        }
+        currentTextField.text = String(format: "%.2f", slider.value)
+        Manager.sharedInstance.editSetting(currentSetting, value: CGFloat(slider.value))
     }
     
-    // Used by UITextField
+    
+    // Used when you touch "Done" on UITextField
     @objc func textDone() {
-        if let newValue = NumberFormatter().number(from: currentTextField.text ?? "") {
-            currentEditValue = Float(truncating: newValue)
-            valueSlider.value = Float(truncating: newValue)
-            Manager.sharedInstance.preferences.set(newValue, forKey: currentEditSetting!.key)
-            Manager.sharedInstance.editValue(setting: currentEditSetting!)
-        }
+        let newValue = ((currentTextField.text ?? "") as NSString).floatValue
+        slider.value = newValue
+        Manager.sharedInstance.editSetting(currentSetting, value: CGFloat(slider.value))
         
         currentTextField.resignFirstResponder()
     }

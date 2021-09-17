@@ -4,29 +4,33 @@ import Cephei
 
 class Manager {
     
+    static let sharedInstance = Manager()
+    
     // Preferences
     var preferences = HBPreferences(identifier: "com.xyaman.koripreferences")
+    
+    // Notifications
     var notificationsYOffset: CGFloat = 0
     var notificationsXOffset: CGFloat = 0
     var notificationsWidthOffset: CGFloat = 0
     var notificationsHeightOffset: CGFloat = 0
+    
+    // Editable preferences (not available on tweak prefs)
     var editableSettings: [EditableSetting] = []
+    
+    // Hooked views
+    var presenter: UIViewController?
+    var notificationsView: UIView?
+    
+    // Edition
+    private var editorView: EditorView?
+    var isEditing = false
 
     // Haptic feedback
     var selectionFeedback = UISelectionFeedbackGenerator()
     var impactFeedback = UIImpactFeedbackGenerator()
     
-    // Tweak
-    private var editorView = EditorView()
-    var isEditing = false
-    
-    // Hook views
-    var presenter: UIViewController?
-    var notificationsView: UIView?
-    
-    static let sharedInstance = Manager()
-    
-    init() {
+    private init() {
         preferences.register(float: &notificationsYOffset, default: 0, forKey: "notificationsYOffset")
         preferences.register(float: &notificationsXOffset, default: 0, forKey: "notificationsXOffset")
         preferences.register(float: &notificationsWidthOffset, default: 0, forKey: "notificationsWidthOffset")
@@ -56,28 +60,33 @@ class Manager {
             return
         }
         
-        // Add our view to the presenter
-        presenterView.addSubview(editorView)
-        editorView.translatesAutoresizingMaskIntoConstraints = false
-        editorView.topConstraint = editorView.topAnchor.constraint(equalTo: presenterView.topAnchor, constant: 10)
+        editorView = EditorView()
         
+        // Add our view to the presenter
+        presenterView.addSubview(editorView!)
+        editorView!.translatesAutoresizingMaskIntoConstraints = false
+        
+        editorView!.topConstraint = editorView!.topAnchor.constraint(equalTo: presenterView.topAnchor, constant: 10)
+
         // Activate contraints
         NSLayoutConstraint.activate([
-            editorView.topConstraint,
-            editorView.leftAnchor.constraint(equalTo: presenterView.leftAnchor, constant: 10),
-            editorView.rightAnchor.constraint(equalTo: presenterView.rightAnchor, constant: -10),
-            editorView.heightAnchor.constraint(equalToConstant: 150)
+            editorView!.topConstraint,
+            editorView!.leftAnchor.constraint(equalTo: presenterView.leftAnchor, constant: 10),
+            editorView!.rightAnchor.constraint(equalTo: presenterView.rightAnchor, constant: -10),
+            editorView!.heightAnchor.constraint(equalToConstant: 150)
         ])
-        
-        editorView.prepare()
     }
     
-    func stopEditing() {
+    @objc func stopEditing() {
         // Only execute this function if we are editing
         if(!isEditing) { return }
         isEditing = false
-
-        editorView.removeFromSuperview()
+        
+        if let unwrappedEditorView = editorView {
+            unwrappedEditorView.removeFromSuperview()
+            editorView = nil
+        }
+        
     }
     
     func getImage(key: String) -> UIImage? {
@@ -85,7 +94,13 @@ class Manager {
         return UIImage(contentsOfFile: url)?.withRenderingMode(.alwaysTemplate)
     }
     
-    func editValue(setting: EditableSetting) {
+    func editSetting(_ wrappedSetting: EditableSetting?, value: CGFloat) {
+        
+        guard let setting = wrappedSetting else {
+            return
+        }
+        
+        preferences.set(value, forKey: setting.key)
         
         switch setting.type {
         case .notifications:

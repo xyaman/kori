@@ -5,17 +5,18 @@ class EditorView : UIView {
     
     var topConstraint: NSLayoutConstraint!
     
-    // Edit
-    var titleLabel = UILabel()
+    // UI
+    var blurView: UIView!
+    var closeView: UIImageView!
+    var returnView: UIImageView!
+    var titleLabel: UILabel!
     var collectionView: UICollectionView!
     var collectionLayout: UICollectionViewFlowLayout!
+    
     
     // Controls
     var controlsView: ControlEditorView = ControlEditorView()
     
-    var blurView: UIView!
-    var closeView: UIImageView!
-   
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -26,16 +27,17 @@ class EditorView : UIView {
         layer.cornerCurve = .continuous
 
         // Blur View
-        if let materialView = objc_getClass("MTMaterialView") as? MTMaterialView.Type {
-            blurView = materialView.materialView(withRecipe: 1, configuration: 1)
-            addSubview(blurView)
-            
-            blurView.translatesAutoresizingMaskIntoConstraints = false
-            blurView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-            blurView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-            blurView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            blurView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        }
+        let materialView = objc_getClass("MTMaterialView") as! MTMaterialView.Type
+        blurView = materialView.materialView(withRecipe: 1, configuration: 1)
+        addSubview(blurView)
+        
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        blurView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        blurView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        blurView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        
+        
         
         // Close View
         closeView = UIImageView(image: UIImage(systemName: "xmark"))
@@ -50,7 +52,22 @@ class EditorView : UIView {
         closeView.heightAnchor.constraint(equalToConstant: 20).isActive = true
         closeView.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
+        // Return View
+        returnView = UIImageView(image: UIImage(systemName: "arrow.uturn.backward"))
+        returnView.isHidden = true
+        returnView.tintColor = .label
+        returnView.contentMode = .scaleAspectFit
+        returnView.isUserInteractionEnabled = true
+        addSubview(returnView)
+        
+        returnView.translatesAutoresizingMaskIntoConstraints = false
+        returnView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
+        returnView.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
+        returnView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        returnView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        
         // TitleLabel
+        titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         titleLabel.textAlignment = .center
         titleLabel.adjustsFontSizeToFitWidth = true
@@ -91,8 +108,11 @@ class EditorView : UIView {
         controlsView.rightAnchor.constraint(equalTo:rightAnchor, constant: -10).isActive = true
         
         // Add buttons tap gestures
-        let closeTap = UITapGestureRecognizer(target: self, action: #selector(close))
+        let closeTap = UITapGestureRecognizer(target: Manager.sharedInstance, action: #selector(Manager.sharedInstance.stopEditing))
         closeView.addGestureRecognizer(closeTap)
+        
+        let returnTap = UITapGestureRecognizer(target: self, action: #selector(toggleControlsView))
+        returnView.addGestureRecognizer(returnTap)
 
         // Pan movement gesture
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
@@ -103,19 +123,17 @@ class EditorView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func prepare() {
-        titleLabel.text = "Editor"
-        controlsView.isHidden = true
-        collectionView.isHidden = false
-        closeView.image = UIImage(systemName: "xmark")
-    }
-    
-    @objc func close() {
-        if(controlsView.isHidden) {
-            Manager.sharedInstance.stopEditing()
-            Manager.sharedInstance.impactFeedback.impactOccurred()
-        } else {
-            prepare()
+    @objc func toggleControlsView() {
+        Manager.sharedInstance.selectionFeedback.selectionChanged()
+
+        self.collectionView.isHidden = !self.collectionView.isHidden
+        self.controlsView.isHidden = !self.controlsView.isHidden
+        
+        self.closeView.isHidden = !self.closeView.isHidden
+        self.returnView.isHidden = !self.returnView.isHidden
+        
+        if(!self.collectionView.isHidden) {
+            self.titleLabel.text = "Editor"
         }
     }
     
@@ -133,9 +151,6 @@ class EditorView : UIView {
 }
 
 extension EditorView : UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-            return 1
-    }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Manager.sharedInstance.editableSettings.count
@@ -156,15 +171,10 @@ extension EditorView : UICollectionViewDataSource {
 extension EditorView: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        Manager.sharedInstance.selectionFeedback.selectionChanged()
-        
-        controlsView.isHidden = false
-        collectionView.isHidden = true
-        closeView.image = UIImage(systemName: "arrow.uturn.backward")
-        
         let setting = Manager.sharedInstance.editableSettings[indexPath.row]
-        titleLabel.text = setting.title
         controlsView.startEdit(setting: setting)
+        
+        toggleControlsView()
+        titleLabel.text = setting.title
     }
 }

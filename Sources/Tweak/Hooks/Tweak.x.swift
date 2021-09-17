@@ -3,6 +3,9 @@ import Orion
 import UIKit
 
 
+// Used on DisableNotificationsHistory.x.swift
+struct DisableNotificationsHistory : HookGroup {}
+
 // CoverSheet hook to get the instance
 class CoverSheetController : ClassHook<CSCoverSheetViewController> {
     
@@ -18,18 +21,18 @@ class CoverSheetController : ClassHook<CSCoverSheetViewController> {
     }
 }
 
+let startEditCallback: CFNotificationCallback = {center, observer, name, object, userInfo in
+    Manager.sharedInstance.startEditing()
+    let cover = objc_getClass("SBCoverSheetPresentationManager") as! SBCoverSheetPresentationManager.Type
+    cover.sharedInstance().setCoverSheetPresented(true, animated: true, withCompletion: nil)
+}
+
 struct Kori : Tweak {
     init() {
-        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
-            nil,
-            {center, observer, name, object, userInfo in
-                Manager.sharedInstance.startEditing()
-                let cover = objc_getClass("SBCoverSheetPresentationManager") as! SBCoverSheetPresentationManager.Type
-                cover.sharedInstance().setCoverSheetPresented(true, animated: true, withCompletion: nil)
-            },
-            "com.xyaman.koripreferences/StartEditing" as CFString,
-            nil,
-            .coalesce
-        )
+        // Start edit notification
+        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), nil, startEditCallback, "com.xyaman.koripreferences/StartEditing" as CFString, nil, .coalesce)
+    
+        // Enable groups
+//        if(DisableNotificationsHistory)
     }
 }
