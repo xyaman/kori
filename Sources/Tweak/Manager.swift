@@ -11,6 +11,7 @@ class Manager {
     var disableNotificationsHistory: ObjCBool = false
     var useDateStaticFrame: ObjCBool = false
     var dateFontSize: CGFloat = 70
+    var notifsGradient: Int = 0
     
     // Notifications
     var notificationsXOffset: CGFloat = 0
@@ -48,6 +49,8 @@ class Manager {
         preferences.register(_Bool: &disableNotificationsHistory, default: false, forKey: "disableNotificationsHistory")
         preferences.register(_Bool: &useDateStaticFrame, default: false, forKey: "useDateStaticFrame")
         preferences.register(float: &dateFontSize, default: 70, forKey: "dateFontSize")
+        preferences.register(integer: &notifsGradient, default: 0, forKey: "notifsGradient")
+
 
         // Notifications
         preferences.register(float: &notificationsYOffset, default: 0, forKey: "notificationsYOffset")
@@ -182,3 +185,8 @@ final class EditableSetting {
 }
 
 
+enum Gradient : Int {
+    case none = 0
+    case top
+    case bottom
+}

@@ -47,7 +47,45 @@ class NotificationList : ClassHook<NCNotificationListView> {
     
     @Property(.nonatomic) var originalFrame = CGRect()
     @Property(.nonatomic) var isTargetView = false
+    @Property(.nonatomic) var gradientLayer: CAGradientLayer? = nil
     
+    func didMoveToWindow() {
+        orig.didMoveToWindow()
+        let gradient = Gradient.init(rawValue: Manager.sharedInstance.notifsGradient)
+        
+        // TODO
+        if(gradientLayer != nil || !isTargetView || gradient == Gradient.none) {return}
+        
+        if let superview = target.superview {
+            
+            gradientLayer = CAGradientLayer()
+            gradientLayer?.frame = superview.bounds
+            
+            switch gradient {
+            case .top:
+                gradientLayer?.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
+                gradientLayer?.locations = [0, 0.1]
+            case .bottom:
+                gradientLayer?.colors = [UIColor.white.cgColor, UIColor.clear.cgColor]
+                gradientLayer?.locations = [0.9, 1]
+            default:
+                break
+            }
+            
+            superview.layer.mask = gradientLayer
+        }
+        
+    }
+    
+    // Temporal solution
+    func layoutSubviews() {
+        orig.layoutSubviews()
+        
+        if let superview = target.superview {
+            gradientLayer?.frame = superview.bounds
+        }
+        
+    }
     
     func didMoveToSuperview() {
         orig.didMoveToSuperview()
@@ -59,10 +97,10 @@ class NotificationList : ClassHook<NCNotificationListView> {
         }
         
         if(!superview.isKind(of: notificationListViewClass.self)) {
-            NSLog("orion target")
             isTargetView = true
             Manager.sharedInstance.notificationsListView = target
         }
+        
     }
     
     func setFrame(_ frame: CGRect) {
@@ -79,7 +117,8 @@ class NotificationList : ClassHook<NCNotificationListView> {
             target.clipsToBounds = Manager.sharedInstance.notificationsHeightOffset != 0
             newFrame.size.height += Manager.sharedInstance.notificationsHeightOffset
                         
-            orig.setFrame(newFrame)
+//            orig.setFrame(newFrame)
+            gradientLayer?.frame = target.bounds
         
         } else {
             orig.setFrame(frame)
