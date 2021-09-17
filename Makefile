@@ -8,7 +8,7 @@ INSTALL_TARGET_PROCESSES = SpringBoard
 TWEAK_NAME = Kori
 $(TWEAK_NAME)_FILES = $(shell find Sources/Tweak -name '*.swift') $(shell find Sources/TweakC -name '*.m' -o -name '*.c' -o -name '*.mm' -o -name '*.cpp')
 $(TWEAK_NAME)_SWIFTFLAGS = -ISources/TweakC/include
-$(TWEAK_NAME)_CFLAGS = -fobjc-arc -ISources/MochiC/include
+$(TWEAK_NAME)_CFLAGS = -fobjc-arc -ISources/TweakC/include
 $(TWEAK_NAME)_FRAMEWORKS = CoverSheet
 $(TWEAK_NAME)_EXTRA_FRAMEWORKS = Cephei
 

@@ -1,5 +1,5 @@
 import TweakC
-import Foundation
+import UIKit
 import Cephei
 
 class Manager {
@@ -31,8 +31,6 @@ class Manager {
         preferences.register(float: &notificationsXOffset, default: 0, forKey: "notificationsXOffset")
         preferences.register(float: &notificationsWidthOffset, default: 0, forKey: "notificationsWidthOffset")
         preferences.register(float: &notificationsHeightOffset, default: 0, forKey: "notificationsHeightOffset")
-
-
         
         // Notification editable settings
         editableSettings.append(contentsOf: [
@@ -43,6 +41,7 @@ class Manager {
         ])
         
         // Time editable settings
+        
     }
     
     func startEditing() {
