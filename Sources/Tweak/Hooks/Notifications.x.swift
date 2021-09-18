@@ -72,7 +72,7 @@ class NotificationList : ClassHook<NCNotificationListView> {
                 break
             }
             
-            superview.layer.mask = gradientLayer
+//            superview.layer.mask = gradientLayer
         }
         
     }

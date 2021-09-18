@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Notifications ScrollView
 @interface CSCombinedListViewController : UIViewController
+- (UIEdgeInsets)_listViewDefaultContentInsets;
+-(void)layoutListView;
 @end
 
 @interface NCNotificationStructuredListViewController : UIViewController
