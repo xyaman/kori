@@ -72,7 +72,7 @@ class ControlEditorView : UIView {
     
     func startEdit(setting: EditableSetting) {
         currentSetting = setting
-        let currentValue = Manager.sharedInstance.preferences[setting.key] as? Float ?? 0
+        let currentValue = Manager.shared.preferences[setting.key] as? Float ?? 0
         
         slider.minimumValue = Float(setting.minValue)
         slider.maximumValue = Float(setting.maxValue)
@@ -84,12 +84,12 @@ class ControlEditorView : UIView {
     }
     
     @objc func sliderDidBegin(slider: UISlider) {
-        Manager.sharedInstance.impactFeedback?.impactOccurred()
+        Manager.shared.impactFeedback?.impactOccurred()
     }
     
     @objc func sliderDidChange(slider: UISlider) {
         currentTextField.text = String(format: "%.2f", slider.value)
-        Manager.sharedInstance.editSetting(currentSetting, value: CGFloat(slider.value))
+        Manager.shared.editSetting(currentSetting, value: CGFloat(slider.value))
     }
     
     
@@ -97,7 +97,7 @@ class ControlEditorView : UIView {
     @objc func textDone() {
         let newValue = ((currentTextField.text ?? "") as NSString).floatValue
         slider.value = newValue
-        Manager.sharedInstance.editSetting(currentSetting, value: CGFloat(slider.value))
+        Manager.shared.editSetting(currentSetting, value: CGFloat(slider.value))
         
         currentTextField.resignFirstResponder()
     }

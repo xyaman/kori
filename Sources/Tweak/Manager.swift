@@ -4,7 +4,7 @@ import Cephei
 
 class Manager {
     
-    static let sharedInstance = Manager()
+    static let shared = Manager()
     
     // Preferences
     var preferences = HBPreferences(identifier: "com.xyaman.koripreferences")

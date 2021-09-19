@@ -128,7 +128,7 @@ class EditorView : UIView {
         let resetTap = UITapGestureRecognizer(target: self, action: #selector(resetSetting))
         resetView.addGestureRecognizer(resetTap)
         
-        let closeTap = UITapGestureRecognizer(target: Manager.sharedInstance, action: #selector(Manager.sharedInstance.stopEditing))
+        let closeTap = UITapGestureRecognizer(target: Manager.shared, action: #selector(Manager.shared.stopEditing))
         closeView.addGestureRecognizer(closeTap)
         
         let returnTap = UITapGestureRecognizer(target: self, action: #selector(toggleControlsView))
@@ -145,13 +145,13 @@ class EditorView : UIView {
     
     @objc func resetSetting() {
         if let setting = controlsView.currentSetting {
-            Manager.sharedInstance.editSetting(setting, value: 0)
+            Manager.shared.editSetting(setting, value: 0)
             controlsView.startEdit(setting: setting) // Forces a reload
         }
     }
     
     @objc func toggleControlsView() {
-        Manager.sharedInstance.selectionFeedback?.selectionChanged()
+        Manager.shared.selectionFeedback?.selectionChanged()
                 
         self.collectionView.isHidden = !self.collectionView.isHidden
         self.controlsView.isHidden = !self.controlsView.isHidden
@@ -181,15 +181,15 @@ class EditorView : UIView {
 extension EditorView : UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Manager.sharedInstance.editableSettings.count
+        return Manager.shared.editableSettings.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SettingCell", for: indexPath) as! SettingCell
-        let setting = Manager.sharedInstance.editableSettings[indexPath.row]
+        let setting = Manager.shared.editableSettings[indexPath.row]
         
         cell.label.text = setting.title
-        cell.imageView.image = Manager.sharedInstance.getImage(key: setting.key)
+        cell.imageView.image = Manager.shared.getImage(key: setting.key)
         cell.imageView.tintColor = .label
         
         return cell
@@ -199,7 +199,7 @@ extension EditorView : UICollectionViewDataSource {
 extension EditorView: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let setting = Manager.sharedInstance.editableSettings[indexPath.row]
+        let setting = Manager.shared.editableSettings[indexPath.row]
         controlsView.startEdit(setting: setting)
         
         toggleControlsView()

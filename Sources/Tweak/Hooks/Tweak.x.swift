@@ -11,18 +11,18 @@ class CoverSheetController : ClassHook<CSCoverSheetViewController> {
     
     func viewDidLoad() {
         orig.viewDidLoad()
-        Manager.sharedInstance.presenter = target
+        Manager.shared.presenter = target
     }
     
     func viewDidDisappear(_ animated: Bool) {
         orig.viewDidDisappear(animated)
         
-        Manager.sharedInstance.stopEditing()
+        Manager.shared.stopEditing()
     }
 }
 
 let startEditCallback: CFNotificationCallback = {center, observer, name, object, userInfo in
-    Manager.sharedInstance.startEditing()
+    Manager.shared.startEditing()
     let cover = objc_getClass("SBCoverSheetPresentationManager") as! SBCoverSheetPresentationManager.Type
     cover.sharedInstance().setCoverSheetPresented(true, animated: true, withCompletion: nil)
 }
@@ -33,7 +33,7 @@ struct Kori : Tweak {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), nil, startEditCallback, "com.xyaman.koripreferences/StartEditing" as CFString, nil, .coalesce)
     
         // Enable groups
-        if(Manager.sharedInstance.disableNotificationsHistory.boolValue) {
+        if(Manager.shared.disableNotificationsHistory.boolValue) {
             DisableNotificationsHistory().activate()
         }
     }
