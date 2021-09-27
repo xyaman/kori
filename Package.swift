@@ -70,26 +70,26 @@ let package = Package(
     products: [
         .library(
             name: "Kori",
-            targets: ["Tweak"]
+            targets: ["Kori"]
         ),
         .library(
             name: "KoriPreferences",
-            targets: ["Preferences"]
+            targets: ["KoriPreferences"]
         )
     ],
     targets: [
         .target(
-            name: "TweakC",
+            name: "KoriC",
             cSettings: [.unsafeFlags(cFlags)],
             cxxSettings: [.unsafeFlags(cxxFlags)]
         ),
         .target(
-            name: "Tweak",
-            dependencies: ["TweakC"],
+            name: "Kori",
+            dependencies: ["KoriC"],
             swiftSettings: [.unsafeFlags(swiftFlags)]
         ),
         .target(
-            name: "Preferences",
+            name: "KoriPreferences",
             swiftSettings: [.unsafeFlags(swiftFlags)]
         ),
     ]

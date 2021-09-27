@@ -8,24 +8,24 @@ class Manager {
     
     // Preferences
     var preferences = HBPreferences(identifier: "com.xyaman.koripreferences")
-    var disableNotificationsHistory: ObjCBool = false
-    var useDateStaticFrame: ObjCBool = false
-    var dateFontSize: CGFloat = 70
-    var notifsGradient: Int = 0
+    private(set) var disableNotificationsHistory: ObjCBool = false
+    private(set) var useDateStaticFrame: ObjCBool = false
+    private(set) var dateFontSize: CGFloat = 70
+    private(set) var notifsGradient: Int = 0
     
     // Notifications
-    var notificationsXOffset: CGFloat = 0
-    var notificationsYOffset: CGFloat = 0
-    var notificationsWidthOffset: CGFloat = 0
-    var notificationsHeightOffset: CGFloat = 0
+    private(set) var notificationsXOffset: CGFloat = 0
+    private(set) var notificationsYOffset: CGFloat = 0
+    private(set) var notificationsWidthOffset: CGFloat = 0
+    private(set) var notificationsHeightOffset: CGFloat = 0
     
-    var dateXOffset: CGFloat = 0
-    var dateYOffset: CGFloat = 0
-    var dateWidthOffset: CGFloat = 0
-    var dateHeightOffset: CGFloat = 0
+    private(set) var dateXOffset: CGFloat = 0
+    private(set) var dateYOffset: CGFloat = 0
+    private(set) var dateWidthOffset: CGFloat = 0
+    private(set) var dateHeightOffset: CGFloat = 0
     
-    var dateXStatic: CGFloat = 0
-    var dateYStatic: CGFloat = 0
+    private(set) var dateXStatic: CGFloat = 0
+    private(set) var dateYStatic: CGFloat = 0
     
     // Editable preferences (not available on tweak prefs)
     var editableSettings: [EditableSetting] = []
@@ -33,7 +33,6 @@ class Manager {
     // Hooked views
     var presenter: UIViewController?
     var notificationsView: UIView?
-    var notificationsListView: UIView?
     var dateView: UIView?
     
     // Edition
@@ -145,42 +144,11 @@ class Manager {
         case .notifications:
             // Reload the notificationView frame (we hooked setFrame)
             notificationsView?.frame = CGRect()
-            notificationsListView?.frame = CGRect()
         case .date:
             // Reload the dateView frame (we hooked setFrame)
             dateView?.frame = CGRect()
         }
         isEditing = false
-    }
-}
-
-final class EditableSetting {
-    var key: String
-    var title: String
-    var type: Editabletype
-    var minValue: CGFloat
-    var maxValue: CGFloat
-    
-    enum Editabletype {
-        case notifications
-        case date
-    }
-
-    
-    init(key: String, title: String, type: Editabletype, minValue: CGFloat, maxValue: CGFloat) {
-        self.key = key
-        self.title = title
-        self.type = type
-        self.minValue = minValue
-        self.maxValue = maxValue
-    }
-    
-    static func notification(key: String, title: String, minValue:CGFloat, maxValue: CGFloat) -> EditableSetting {
-        EditableSetting(key: key, title: title, type: .notifications, minValue: minValue, maxValue: maxValue)
-    }
-    
-    static func date(key: String, title: String, minValue:CGFloat, maxValue: CGFloat) -> EditableSetting {
-        EditableSetting(key: key, title: title, type: .date, minValue: minValue, maxValue: maxValue)
     }
 }
 
